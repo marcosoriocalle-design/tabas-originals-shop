@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title><%= title %></title>
+    <%- include('../../partials/header') %>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-brandDark text-white bg-[url('https://images.unsplash.com/photo-1552346154-21d32810baa3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-blend-overlay" style="background-color: rgba(11,11,11,0.9);">
+    
+    <div class="w-full max-w-md bg-brandDarker border border-gray-800 rounded-2xl p-8 shadow-2xl backdrop-blur-md">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-white tracking-wide mb-2">
+                tabas<span class="text-brandRed">ORIGINALS</span>
+            </h1>
+            <p class="text-gray-400 text-sm uppercase tracking-widest">Acceso Restringido</p>
+        </div>
+
+        <% if (error) { %>
+            <div class="bg-red-500 bg-opacity-20 border border-red-500 text-red-400 p-3 rounded-lg text-sm mb-6 text-center">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form action="/admin/login" method="POST" class="space-y-6">
+            <div>
+                <label class="block text-gray-400 mb-2 font-medium text-sm">Usuario</label>
+                <input type="text" name="username" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-brandRed transition">
+            </div>
+            <div>
+                <label class="block text-gray-400 mb-2 font-medium text-sm">Contraseña</label>
+                <input type="password" name="password" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-brandRed transition">
+            </div>
+            
+            <button type="submit" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3 rounded-lg uppercase tracking-wider transition shadow-lg shadow-red-500/30">
+                Entrar al Panel
+            </button>
+        </form>
+
+        <div class="text-center mt-6">
+            <a href="/" class="text-gray-500 hover:text-white text-sm transition">← Volver a la tienda pública</a>
+        </div>
+    </div>
+
+</body>
+</html>

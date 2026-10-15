@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title><%= title %></title>
+    <%- include('../partials/header') %>
+</head>
+<body class="flex flex-col min-h-screen bg-brandDark text-white">
+    <%- include('../partials/navbar') %>
+
+    <!-- SECCIÓN HERO (PORTADA) -->
+    <section class="flex flex-col justify-center items-center text-center p-6 relative" style="min-height: calc(100vh - 72px); background: linear-gradient(rgba(11,11,11,0.7), rgba(11,11,11,0.9)), url('https://images.unsplash.com/photo-1552346154-21d32810baa3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;">
+        <h1 class="text-5xl md:text-7xl font-bold uppercase tracking-wider mb-4"><%= heroTitle %></h1>
+        <p class="text-xl text-gray-300 max-w-2xl mb-8"><%= heroSubtitle %></p>
+        <a href="/catalogo" class="bg-brandRed hover:bg-red-700 text-white font-bold py-4 px-8 rounded uppercase tracking-wider transition transform hover:scale-105 shadow-lg shadow-red-500/30">
+            Ver Colección Exclusiva
+        </a>
+
+        <!-- MARCAS DESTACADAS -->
+        <div class="mt-16 flex flex-col items-center">
+            <p class="text-gray-400 text-sm uppercase tracking-widest mb-5">Las mejores marcas</p>
+            <div class="flex gap-3 md:gap-6 flex-wrap justify-center max-w-4xl">
+                <% marcas.forEach(marca => { %>
+                    <a href="/catalogo?marca=<%= marca %>" class="px-6 py-2 md:px-8 md:py-3 bg-black bg-opacity-60 border border-gray-600 rounded-full text-gray-300 hover:text-white hover:border-brandRed hover:bg-brandRed transition uppercase tracking-widest text-xs md:text-sm font-bold backdrop-blur-md shadow-lg">
+                        <%= marca %>
+                    </a>
+                <% }) %>
+            </div>
+        </div>
+
+        <!-- CATEGORÍAS: HOMBRE, MUJER, NIÑOS -->
+        <div class="mt-10 flex flex-col items-center">
+            <p class="text-gray-400 text-sm uppercase tracking-widest mb-5">Comprar por categoría</p>
+            <div class="flex gap-4 md:gap-8 flex-wrap justify-center">
+                <a href="/catalogo?categoria=Hombre" class="group flex flex-col items-center gap-3 px-8 py-5 bg-black bg-opacity-50 border border-gray-600 rounded-2xl hover:border-brandRed hover:bg-brandRed transition backdrop-blur-md shadow-lg">
+                    <svg class="w-10 h-10 text-gray-400 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <span class="text-gray-300 group-hover:text-white font-bold uppercase tracking-widest text-sm">Hombre</span>
+                </a>
+                <a href="/catalogo?categoria=Mujer" class="group flex flex-col items-center gap-3 px-8 py-5 bg-black bg-opacity-50 border border-gray-600 rounded-2xl hover:border-brandRed hover:bg-brandRed transition backdrop-blur-md shadow-lg">
+                    <svg class="w-10 h-10 text-gray-400 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <span class="text-gray-300 group-hover:text-white font-bold uppercase tracking-widest text-sm">Mujer</span>
+                </a>
+                <a href="/catalogo?categoria=Niños" class="group flex flex-col items-center gap-3 px-8 py-5 bg-black bg-opacity-50 border border-gray-600 rounded-2xl hover:border-brandRed hover:bg-brandRed transition backdrop-blur-md shadow-lg">
+                    <svg class="w-10 h-10 text-gray-400 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="text-gray-300 group-hover:text-white font-bold uppercase tracking-widest text-sm">Niños</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN SOBRE NOSOTROS -->
+    <main class="container mx-auto px-4 py-20 max-w-6xl">
+        
+        <!-- Fecha de creación y Título -->
+        <div class="text-center mb-16">
+            <span class="text-brandRed font-bold tracking-widest uppercase text-sm">Nuestra Historia</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-2 mb-4 uppercase">El Alma de tabas ORIGINALS</h2>
+            <div class="inline-block bg-brandDarker border border-gray-800 px-6 py-2 rounded-full mb-6">
+                <p class="text-gray-300 font-medium">Fundada en <span class="text-white font-bold">2024</span></p>
+            </div>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto">Nacimos en el asfalto para llevar la cultura urbana a tus pies. Somos más que una tienda de zapatillas, somos un estilo de vida.</p>
+        </div>
+
+        <!-- Misión y Visión -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
+            <div class="bg-brandDarker p-8 rounded-xl border border-gray-800 hover:border-brandRed transition duration-300 shadow-lg">
+                <div class="flex items-center mb-6">
+                    <div class="bg-gray-900 p-3 rounded-lg mr-4">
+                        <svg class="w-8 h-8 text-brandRed" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold uppercase tracking-wide">Nuestra Misión</h3>
+                </div>
+                <p class="text-gray-300 leading-relaxed text-lg">
+                    Inspirar y equipar a la comunidad urbana con calzado exclusivo que exprese su identidad auténtica. Garantizamos calidad, estilo y confort en cada paso, acercando las mejores tendencias globales y retro a tu estilo de vida diario.
+                </p>
+            </div>
+            
+            <div class="bg-brandDarker p-8 rounded-xl border border-gray-800 hover:border-brandRed transition duration-300 shadow-lg">
+                <div class="flex items-center mb-6">
+                    <div class="bg-gray-900 p-3 rounded-lg mr-4">
+                        <svg class="w-8 h-8 text-brandRed" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold uppercase tracking-wide">Nuestra Visión</h3>
+                </div>
+                <p class="text-gray-300 leading-relaxed text-lg">
+                    Ser el referente número uno en moda urbana y cultura sneaker a nivel nacional, creando una comunidad apasionada donde cada par de zapatillas cuente una historia y marque una tendencia inolvidable en las calles.
+                </p>
+            </div>
+        </div>
+
+        <!-- Valores y Cultura -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <!-- Valores -->
+            <div class="p-4">
+                <div class="flex items-center mb-8">
+                    <svg class="w-8 h-8 text-brandRed mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    <h3 class="text-2xl font-bold uppercase tracking-wide">Nuestros Valores</h3>
+                </div>
+                <ul class="space-y-6">
+                    <li class="flex items-start">
+                        <span class="text-brandRed text-xl font-bold mr-3 mt-1">›</span>
+                        <div>
+                            <strong class="text-white text-lg block mb-1">Autenticidad</strong>
+                            <p class="text-gray-400">Sé tú mismo, sin filtros ni moldes. Valoramos lo original.</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-brandRed text-xl font-bold mr-3 mt-1">›</span>
+                        <div>
+                            <strong class="text-white text-lg block mb-1">Innovación</strong>
+                            <p class="text-gray-400">Siempre un paso adelante en las tendencias de la calle.</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-brandRed text-xl font-bold mr-3 mt-1">›</span>
+                        <div>
+                            <strong class="text-white text-lg block mb-1">Comunidad</strong>
+                            <p class="text-gray-400">Más que clientes, somos una gran familia sneakerhead.</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-brandRed text-xl font-bold mr-3 mt-1">›</span>
+                        <div>
+                            <strong class="text-white text-lg block mb-1">Exclusividad</strong>
+                            <p class="text-gray-400">Modelos únicos seleccionados para personas únicas.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Cultura Institucional -->
+            <div class="bg-gray-900 p-8 rounded-xl border-l-4 border-brandRed flex flex-col justify-center">
+                <h3 class="text-2xl font-bold uppercase mb-6 tracking-wide">Cultura Institucional</h3>
+                <div class="text-gray-300 leading-relaxed space-y-4">
+                    <p>
+                        Vivimos y respiramos la cultura de la calle. En <span class="text-white font-bold">tabas ORIGINALS</span> fomentamos un ambiente dinámico, creativo y completamente diverso. 
+                    </p>
+                    <p>
+                        Nuestro equipo está impulsado por la pasión por la moda, el arte urbano y la música. No seguimos las reglas establecidas, preferimos crear las nuestras.
+                    </p>
+                    <p class="italic text-gray-400 border-l-2 border-gray-600 pl-4 mt-6">
+                        "Creemos firmemente en pisar fuerte y dejar una huella imborrable en cada acera que recorremos."
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN RESPONSABILIDAD SOCIAL (NUEVA) -->
+        <div id="responsabilidad" class="mt-24 border-t border-gray-800 pt-20 pb-10">
+            <div class="text-center mb-14">
+                <span class="text-brandRed font-bold tracking-widest uppercase text-sm">Nuestro Compromiso</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-2 mb-6 uppercase">Responsabilidad Social</h2>
+                <p class="text-gray-400 text-lg max-w-3xl mx-auto leading-relaxed">
+                    En <span class="text-white font-bold">tabas ORIGINALS</span> sabemos que el verdadero estilo urbano se demuestra ayudando al prójimo. 
+                    No solo vendemos zapatillas, queremos ser una plataforma de cambio positivo. Destinamos parte de nuestros recursos y organizamos 
+                    jornadas solidarias para donar calzado y apoyar a familias de escasos recursos. Queremos que todos tengan la oportunidad de 
+                    dar su siguiente paso en la vida con dignidad y seguridad.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Foto 1 -->
+                <div class="relative group overflow-hidden rounded-2xl h-72 border border-gray-800 shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Voluntariado Comunitario" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90 flex items-end p-6">
+                        <div>
+                            <p class="text-brandRed text-sm font-bold uppercase tracking-widest mb-1">Acción Urbana</p>
+                            <p class="text-white font-bold text-xl uppercase tracking-wide">Voluntariado</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Foto 2 -->
+                <div class="relative group overflow-hidden rounded-2xl h-72 border border-gray-800 shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Donación de Calzado" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90 flex items-end p-6">
+                        <div>
+                            <p class="text-brandRed text-sm font-bold uppercase tracking-widest mb-1">Cambiando Vidas</p>
+                            <p class="text-white font-bold text-xl uppercase tracking-wide">Donación de Calzado</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Foto 3 -->
+                <div class="relative group overflow-hidden rounded-2xl h-72 border border-gray-800 shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Apoyo Familiar" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90 flex items-end p-6">
+                        <div>
+                            <p class="text-brandRed text-sm font-bold uppercase tracking-widest mb-1">Juntos Somos Más</p>
+                            <p class="text-white font-bold text-xl uppercase tracking-wide">Apoyo a Familias</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    
+    <!-- Footer sencillo -->
+    <footer class="bg-brandDarker border-t border-gray-800 py-8 text-center text-gray-500 text-sm mt-auto">
+        <p>&copy; 2024 tabas ORIGINALS. Todos los derechos reservados. Pisando fuerte desde el primer día.</p>
+    </footer>
+
+</body>
+</html>

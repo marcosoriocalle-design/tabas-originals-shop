@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title><%= title %></title>
+    <%- include('../partials/header') %>
+</head>
+<body class="flex flex-col min-h-screen bg-brandDark text-white">
+    <%- include('../partials/navbar') %>
+    <main class="flex-grow container mx-auto px-4 py-12 max-w-6xl">
+        <h1 class="text-3xl font-bold mb-8 uppercase border-b border-gray-800 pb-4">Finalizar Compra</h1>
+        
+        <div class="flex flex-col md:flex-row gap-10">
+            <!-- Formulario de Datos -->
+            <div class="md:w-2/3 bg-brandDarker border border-gray-800 p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-6 text-brandRed">Datos de Envío</h2>
+                <form id="checkout-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-400 mb-2 font-medium">Nombre Completo</label>
+                            <input type="text" id="chk-nombre" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-brandRed transition" placeholder="Tu nombre completo">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-2 font-medium">Teléfono / WhatsApp</label>
+                            <input type="tel" id="chk-telefono" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-brandRed transition" placeholder="999 999 999">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 mb-2 font-medium">Correo Electrónico</label>
+                        <input type="email" id="chk-correo" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-brandRed transition" placeholder="correo@ejemplo.com">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 mb-2 font-medium">Dirección de Entrega</label>
+                        <input type="text" id="chk-direccion" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-brandRed transition" placeholder="Av. Principal 123, Ciudad...">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-400 mb-2 font-medium">Método de Pago</label>
+                            <select id="chk-metodo" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-brandRed transition">
+                                <option>Yape / Plin / Transferencia</option>
+                                <option>Pago Contra Entrega (Efectivo)</option>
+                                <option>Tarjeta de Crédito / Débito</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-2 font-medium">Código de Descuento</label>
+                            <input type="text" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-brandRed transition" placeholder="Opcional">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-4 rounded-xl uppercase tracking-wider transition transform hover:-translate-y-1 shadow-lg shadow-red-500/30 mt-6">
+                        Confirmar Pedido
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Resumen de Orden -->
+            <div class="md:w-1/3 bg-gray-900 border border-gray-800 p-8 rounded-xl shadow-lg h-fit sticky top-24">
+                <h2 class="text-xl font-bold mb-6 border-b border-gray-700 pb-2">Resumen de tu Orden</h2>
+                <div id="checkout-items" class="space-y-4 mb-6"></div>
+                <div class="border-t border-gray-700 pt-4 flex justify-between items-center">
+                    <span class="text-gray-400 font-bold uppercase tracking-wider">Total</span>
+                    <span id="checkout-total" class="text-3xl font-bold text-brandRed">$0</span>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        const carrito = JSON.parse(localStorage.getItem('tabas_carrito')) || [];
+        const itemsContainer = document.getElementById('checkout-items');
+        const totalElement = document.getElementById('checkout-total');
+        
+        if (carrito.length === 0) {
+            window.location.href = '/carrito';
+        }
+        
+        let html = '';
+        let total = 0;
+        
+        carrito.forEach(item => {
+            total += item.precio * item.cantidad;
+            html += `
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <img src="${item.imagen}" class="w-12 h-12 object-cover rounded border border-gray-700">
+                    <div>
+                        <p class="font-bold text-sm">${item.modelo}</p>
+                        <p class="text-xs text-gray-400">Cant: ${item.cantidad}</p>
+                    </div>
+                </div>
+                <p class="font-bold text-gray-300">$${item.precio * item.cantidad}</p>
+            </div>
+            `;
+        });
+        
+        itemsContainer.innerHTML = html;
+        totalElement.textContent = '$' + total;
+        
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // 1. Obtener los datos del formulario
+            const nombre = document.getElementById('chk-nombre').value;
+            const telefono = document.getElementById('chk-telefono').value;
+            const direccion = document.getElementById('chk-direccion').value;
+            const metodo = document.getElementById('chk-metodo').value;
+
+            // 2. Construir el texto del mensaje para WhatsApp
+            let mensaje = `*¡Hola! Quiero hacer un pedido en tabas ORIGINALS.* 👟📦%0A%0A`;
+            mensaje += `*MIS DATOS:*%0A`;
+            mensaje += `- Nombre: ${nombre}%0A`;
+            mensaje += `- Teléfono: ${telefono}%0A`;
+            mensaje += `- Dirección: ${direccion}%0A`;
+            mensaje += `- Método de Pago: ${metodo}%0A%0A`;
+            
+            mensaje += `*MI PEDIDO:*%0A`;
+            carrito.forEach(item => {
+                mensaje += `- ${item.cantidad}x ${item.modelo} ($${item.precio * item.cantidad})%0A`;
+            });
+            mensaje += `%0A*TOTAL A PAGAR: $${total}*`;
+
+            // 3. Abrir WhatsApp (Número de prueba, reemplázalo por el tuyo)
+            const numeroWhatsApp = '51999999999';
+            const url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+            window.open(url, '_blank');
+
+            // 4. Vaciar carrito y volver
+            localStorage.removeItem('tabas_carrito');
+            window.location.href = '/';
+        });
+    </script>
+</body>
+</html>

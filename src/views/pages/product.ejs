@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title><%= title %></title>
+    <%- include('../partials/header') %>
+</head>
+<body class="flex flex-col min-h-screen bg-brandDark text-white">
+    <%- include('../partials/navbar') %>
+    <main class="flex-grow container mx-auto px-4 py-12">
+        <a href="/catalogo" class="inline-flex items-center text-gray-400 hover:text-white mb-6 transition">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Volver al catálogo
+        </a>
+        <div class="max-w-6xl mx-auto bg-brandDarker rounded-2xl overflow-hidden shadow-2xl border border-gray-800 flex flex-col md:flex-row">
+            <div class="md:w-1/2 h-96 md:h-auto">
+                <img src="<%= producto.imagen %>" alt="<%= producto.modelo %>" class="w-full h-full object-cover">
+            </div>
+            <div class="md:w-1/2 p-10 flex flex-col justify-center">
+                <p class="text-gray-400 font-bold uppercase tracking-widest mb-2"><%= producto.marca %></p>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4"><%= producto.modelo %></h1>
+                <p class="text-3xl text-brandRed font-bold mb-6">$<%= producto.precio %></p>
+                <p class="text-gray-300 mb-8 leading-relaxed text-lg"><%= producto.descripcion %></p>
+                
+                <div class="mb-8">
+                    <h3 class="font-bold mb-3 uppercase text-sm tracking-wider text-gray-400">Tallas Disponibles (US)</h3>
+                    <div class="flex gap-3 flex-wrap">
+                        <% producto.tallas.forEach(talla => { %>
+                            <button class="border border-gray-600 hover:border-brandRed hover:text-brandRed py-2 px-5 rounded-lg transition font-medium focus:ring-2 focus:ring-brandRed focus:outline-none">
+                                <%= talla %>
+                            </button>
+                        <% }) %>
+                    </div>
+                </div>
+                
+                <!-- Botón con Evento onClick añadido -->
+                <button onclick="agregarAlCarrito('<%= producto.id %>', '<%= producto.modelo %>', <%= producto.precio %>, '<%= producto.imagen %>')" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-4 rounded-xl uppercase tracking-wider transition transform hover:-translate-y-1 shadow-lg shadow-red-500/30 flex justify-center items-center gap-2 mt-auto">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    Añadir al Carrito
+                </button>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Lógica JS para guardar en LocalStorage -->
+    <script>
+        function agregarAlCarrito(id, modelo, precio, imagen) {
+            // Obtenemos el carrito de la memoria del navegador o creamos un array vacío
+            let carrito = JSON.parse(localStorage.getItem('tabas_carrito')) || [];
+            
+            // Verificamos si el producto ya está en el carrito
+            const indice = carrito.findIndex(item => item.id === id);
+            
+            if (indice !== -1) {
+                // Si ya existe, sumamos 1 a la cantidad
+                carrito[indice].cantidad += 1;
+            } else {
+                // Si no existe, lo añadimos con cantidad 1
+                carrito.push({ id, modelo, precio, imagen, cantidad: 1 });
+            }
+            
+            // Guardamos el carrito actualizado en la memoria
+            localStorage.setItem('tabas_carrito', JSON.stringify(carrito));
+            
+            // Notificamos al usuario
+            alert('¡' + modelo + ' se ha añadido a tu carrito correctamente!');
+        }
+    </script>
+</body>
+</html>

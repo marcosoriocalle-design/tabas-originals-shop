@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <%- include('../partials/header') %>
+</head>
+
+<body class="flex flex-col min-h-screen bg-brandDark text-white">
+    <%- include('../partials/navbar') %>
+        <main class="flex-grow container mx-auto px-4 py-12">
+            <h1 class="text-4xl font-bold mb-8 text-center uppercase">Nuestro Catálogo</h1>
+
+            <!-- Filtro por Categoría (Hombre, Mujer, Niños) -->
+            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                <% const categorias=['Todos', 'Hombre' , 'Mujer' , 'Niños' ]; %>
+                    <% categorias.forEach(c=> { %>
+                        <% let catUrl='/catalogo?' ; if (c !=='Todos' ) catUrl +='categoria=' + c + '&' ; if
+                            (marcaSeleccionada && marcaSeleccionada !=='Todas' ) catUrl +='marca=' + marcaSeleccionada;
+                            catUrl=catUrl.replace(/&$/, '' ); %>
+                            <a href="<%= catUrl %>"
+                                class="px-6 py-3 rounded-lg font-bold uppercase tracking-wider transition text-sm
+                   <%= categoriaSeleccionada === c ? 'bg-white text-black shadow-lg' : 'bg-gray-900 text-gray-400 hover:text-white hover:bg-gray-800 border border-gray-700' %>">
+                                <% if (c==='Hombre' ) { %>
+                                    <svg class="w-5 h-5 inline-block mr-1 -mt-0.5" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                                        </path>
+                                    </svg>
+                                    <% } else if (c==='Mujer' ) { %>
+                                        <svg class="w-5 h-5 inline-block mr-1 -mt-0.5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                                            </path>
+                                        </svg>
+                                        <% } else if (c==='Niños' ) { %>
+                                            <svg class="w-5 h-5 inline-block mr-1 -mt-0.5" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                                </path>
+                                            </svg>
+                                            <% } %>
+                                                <%= c %>
+                            </a>
+                            <% }) %>
+            </div>
+
+            <!-- Filtro por Marca -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12 border-b border-gray-800 pb-6 max-w-5xl mx-auto">
+                    <% marcas.forEach(m=> { %>
+                        <% let marcaUrl='/catalogo?' ; if (m !=='Todas' ) marcaUrl +='marca=' + m + '&' ; if
+                            (categoriaSeleccionada && categoriaSeleccionada !=='Todos' ) marcaUrl +='categoria=' +
+                            categoriaSeleccionada; marcaUrl=marcaUrl.replace(/&$/, '' ); %>
+                            <a href="<%= marcaUrl %>"
+                                class="px-5 py-2 rounded-full font-bold uppercase tracking-wider transition text-xs
+                   <%= marcaSeleccionada === m ? 'bg-brandRed text-white shadow-lg shadow-red-500/30' : 'bg-gray-900 text-gray-400 hover:text-white hover:bg-gray-800 border border-gray-700' %>">
+                                <%= m %>
+                            </a>
+                            <% }) %>
+            </div>
+            
+            <!-- Mensaje de Búsqueda -->
+            <% if (typeof searchQuery !== 'undefined' && searchQuery !== '') { %>
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl text-gray-300">Resultados para: <span class="text-white font-bold">"<%= searchQuery %>"</span></h2>
+                    <a href="/catalogo" class="text-brandRed hover:text-white text-sm mt-2 inline-block transition underline">Limpiar búsqueda</a>
+                </div>
+            <% } %>
+
+            <% if (productos.length===0) { %>
+                <div class="text-center py-20">
+                    <svg class="w-20 h-20 mx-auto text-gray-700 mb-6" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <p class="text-2xl text-gray-500 mb-2">No encontramos zapatillas con esos filtros</p>
+                    <p class="text-gray-600 mb-6">Prueba con otra combinación de marca o categoría.</p>
+                    <a href="/catalogo"
+                        class="inline-block text-brandRed hover:text-white transition underline font-bold">Ver todo el
+                        catálogo</a>
+                </div>
+                <% } else { %>
+                    <p class="text-center text-gray-500 mb-8">
+                        <%= productos.length %> producto<%= productos.length !==1 ? 's' : '' %> encontrado<%=
+                                    productos.length !==1 ? 's' : '' %>
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <% productos.forEach(producto=> { %>
+                            <div
+                                class="bg-brandDarker rounded-xl overflow-hidden shadow-lg border border-gray-800 hover:border-brandRed transition duration-300 group flex flex-col">
+                                <div class="h-64 overflow-hidden relative">
+                                    <img src="<%= producto.imagen %>" alt="<%= producto.modelo %>"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                    <span
+                                        class="absolute top-3 left-3 bg-black bg-opacity-70 text-xs font-bold text-gray-300 px-3 py-1 rounded-full uppercase tracking-wider">
+                                        <%= producto.categoria %>
+                                    </span>
+                                </div>
+                                <div class="p-6 flex-grow flex flex-col">
+                                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                                        <%= producto.marca %>
+                                    </span>
+                                    <h2 class="text-xl font-bold mt-1 mb-2">
+                                        <%= producto.modelo %>
+                                    </h2>
+                                    <p class="text-brandRed text-2xl font-bold mb-4">$<%= producto.precio %>
+                                    </p>
+                                    <div class="mt-auto">
+                                        <a href="/producto/<%= producto.id %>"
+                                            class="block w-full text-center bg-white text-black font-bold py-3 rounded hover:bg-gray-200 transition">Ver
+                                            Detalles</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+                    <!-- Pagination controls -->
+<nav class="flex justify-center items-center mt-8 space-x-4">
+    <% if (page > 1) { %>
+        <a href="/catalogo?<% if (searchQuery) { %>q=<%= encodeURIComponent(searchQuery) %>&<% } %><% if (marcaSeleccionada && marcaSeleccionada !== 'Todas') { %>marca=<%= marcaSeleccionada %>&<% } %><% if (categoriaSeleccionada && categoriaSeleccionada !== 'Todos') { %>categoria=<%= categoriaSeleccionada %>&<% } %>page=<%= page - 1 %>"
+           class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-brandRed transition">← Anterior</a>
+    <% } %>
+    <span class="text-gray-400">Página <%= page %> de <%= totalPages %></span>
+    <% if (page < totalPages) { %>
+        <a href="/catalogo?<% if (searchQuery) { %>q=<%= encodeURIComponent(searchQuery) %>&<% } %><% if (marcaSeleccionada && marcaSeleccionada !== 'Todas') { %>marca=<%= marcaSeleccionada %>&<% } %><% if (categoriaSeleccionada && categoriaSeleccionada !== 'Todos') { %>categoria=<%= categoriaSeleccionada %>&<% } %>page=<%= page + 1 %>"
+           class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-brandRed transition">Siguiente →</a>
+    <% } %>
+</nav>
+<% } %>
+        </main>
+</body>
+
+</html>

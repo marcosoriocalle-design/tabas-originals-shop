@@ -1,0 +1,27 @@
+<nav class="bg-brandDarker px-6 py-4 flex justify-between items-center border-b border-gray-800 sticky top-0 z-50 shadow-md">
+    <a href="/" class="text-2xl font-bold text-white tracking-wide">
+        tabas<span class="text-brandRed">ORIGINALS</span>
+    </a>
+    <div class="flex gap-6 items-center">
+        <!-- BUSCADOR -->
+        <form action="/catalogo" method="GET" class="relative hidden md:block">
+            <input type="text" name="q" placeholder="Buscar modelo o marca..." class="bg-gray-900 border border-gray-700 text-white text-sm rounded-full pl-4 pr-10 py-2 focus:outline-none focus:border-brandRed transition w-48 lg:w-64">
+            <button type="submit" class="absolute right-3 top-2.5 text-gray-400 hover:text-brandRed transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </button>
+        </form>
+
+        <a href="/" class="text-white hover:text-brandRed transition font-medium">Inicio</a>
+        <a href="/catalogo" class="text-white hover:text-brandRed transition font-medium">Catálogo</a>
+        <a href="/carrito" class="flex items-center text-white hover:text-brandRed transition font-medium bg-gray-900 px-4 py-2 rounded-lg border border-gray-700 hover:border-brandRed">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            Carrito
+        </a>
+    </div>
+</nav>
+
+<!-- Botón Flotante WhatsApp Global -->
+<a href="https://wa.me/51999999999?text=Hola,%20me%20interesan%20sus%20zapatillas%20exclusivas" target="_blank" title="Contáctanos por WhatsApp"
+   class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-[0_0_15px_rgba(34,197,94,0.5)] hover:bg-green-400 hover:scale-110 transition-transform duration-300 z-[100] flex items-center justify-center">
+    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.964 9.964 0 001.333 4.993L2 22l5.233-1.237a9.994 9.994 0 004.779 1.22h.004c5.505 0 9.988-4.478 9.989-9.985 0-2.669-1.037-5.174-2.924-7.062A9.935 9.935 0 0012.012 2zm5.796 14.136c-.247.694-1.425 1.332-1.956 1.391-.505.056-1.156.128-3.398-.802-2.716-1.127-4.469-3.905-4.606-4.088-.138-.184-1.1-1.465-1.1-2.795 0-1.33.688-1.986.932-2.26.244-.275.53-.344.707-.344.177 0 .354.001.509.008.163.007.382-.062.585.426.212.51.725 1.769.789 1.895.064.128.106.276.018.461-.088.184-.133.298-.265.45-.133.153-.277.33-.398.438-.132.116-.273.245-.122.505.151.26.673 1.112 1.446 1.802.999.893 1.826 1.171 2.091 1.298.265.127.42.106.577-.07.157-.176.679-.792.861-1.064.183-.272.366-.227.605-.137.239.091 1.51.713 1.77.843.26.13.433.195.496.303.064.109.064.63-.183 1.324z"/></svg>
+</a>

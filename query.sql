@@ -1,0 +1,1 @@
+SELECT COUNT(*) FROM tabas_originals WHERE "MARCA" ILIKE '%ADIDAS%';
