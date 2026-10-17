@@ -1,0 +1,10 @@
+# Dependencias
+node_modules/
+
+# Archivos de entorno y claves secretas locales
+.env
+
+# Archivos temporales y respaldos
+*.sql
+.DS_Store
+Thumbs.db

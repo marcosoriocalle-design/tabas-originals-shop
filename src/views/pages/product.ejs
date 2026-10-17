@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title><%= title %></title>
+    <%- include('../partials/header') %>
+</head>
+<body class="flex flex-col min-h-screen text-white">
+    <%- include('../partials/navbar') %>
+    <main class="flex-grow container mx-auto px-4 py-12">
+        <a href="/catalogo" class="inline-flex items-center text-gray-400 hover:text-white mb-6 transition">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Volver al catálogo
+        </a>
+        <div class="max-w-6xl mx-auto bg-brandDarker rounded-2xl overflow-hidden shadow-2xl border border-gray-800 flex flex-col md:flex-row">
+            <div class="md:w-1/2 h-96 md:h-auto">
+                <img src="<%= producto.imagen %>" alt="<%= producto.modelo %>" class="w-full h-full object-cover">
+            </div>
+            <div class="md:w-1/2 p-10 flex flex-col justify-center">
+                <p class="text-gray-400 font-bold uppercase tracking-widest mb-2"><%= producto.marca %></p>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4"><%= producto.modelo %></h1>
+                <p class="text-3xl text-brandRed font-bold mb-6">$<%= producto.precio %></p>
+                <p class="text-gray-300 mb-8 leading-relaxed text-lg"><%= producto.descripcion %></p>
+                
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold uppercase text-xs tracking-wider text-gray-400">Selecciona tu Talla</h3>
+                        <span id="talla-seleccionada-label" class="text-xs text-brandRed font-bold"></span>
+                    </div>
+                    <div class="flex gap-2 flex-wrap" id="tallas-grid">
+                        <% producto.tallas.forEach((talla, index) => { %>
+                            <button type="button"
+                                onclick="seleccionarTalla('<%= talla %>')"
+                                data-talla="<%= talla %>"
+                                class="btn-talla py-2.5 px-4 rounded-lg font-bold text-sm border transition
+                                <%= index === 0 ? 'bg-brandRed text-white border-brandRed shadow-lg shadow-red-500/30' : 'bg-gray-900/80 text-gray-300 border-gray-700 hover:border-gray-500' %>">
+                                <%= talla %>
+                            </button>
+                        <% }) %>
+                    </div>
+                </div>
+                
+                <!-- Botón con Evento onClick añadido -->
+                <button onclick="agregarAlCarrito('<%= producto.id %>', '<%= producto.modelo %>', <%= producto.precio %>, '<%= producto.imagen %>')" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-4 rounded-xl uppercase tracking-wider transition transform hover:-translate-y-1 shadow-lg shadow-red-500/30 flex justify-center items-center gap-2 mt-auto">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    Añadir al Carrito
+                </button>
+            </div>
+        </div>
+
+        <!-- Toast Flotante de Notificación -->
+        <div id="toast-cart" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-950/95 border border-brandRed text-white px-6 py-4 rounded-2xl shadow-2xl backdrop-blur-md flex items-center gap-4 transition-all duration-300 opacity-0 pointer-events-none translate-y-4 z-50">
+            <div class="bg-brandRed/20 p-2 rounded-full text-brandRed">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <div>
+                <p class="font-bold text-sm" id="toast-title">¡Zapatilla añadida!</p>
+                <p class="text-xs text-gray-400" id="toast-desc"></p>
+            </div>
+            <a href="/carrito" class="bg-brandRed hover:bg-red-700 text-white text-xs font-bold px-3 py-2 rounded-lg uppercase tracking-wider transition ml-2">Ver Carrito</a>
+        </div>
+    </main>
+    
+    <script>
+        let tallaElegida = '<%= producto.tallas.length > 0 ? producto.tallas[0] : "40" %>';
+        document.getElementById('talla-seleccionada-label').textContent = 'Talla: ' + tallaElegida;
+
+        function seleccionarTalla(talla) {
+            tallaElegida = talla;
+            document.getElementById('talla-seleccionada-label').textContent = 'Talla: ' + talla;
+            document.querySelectorAll('.btn-talla').forEach(btn => {
+                if (btn.getAttribute('data-talla') === talla) {
+                    btn.className = 'btn-talla py-2.5 px-4 rounded-lg font-bold text-sm border transition bg-brandRed text-white border-brandRed shadow-lg shadow-red-500/30';
+                } else {
+                    btn.className = 'btn-talla py-2.5 px-4 rounded-lg font-bold text-sm border transition bg-gray-900/80 text-gray-300 border-gray-700 hover:border-gray-500';
+                }
+            });
+        }
+
+        function agregarAlCarrito(id, modelo, precio, imagen) {
+            let carrito = JSON.parse(localStorage.getItem('tabas_carrito')) || [];
+            
+            // Usamos clave única con ID y Talla para que pueda comprar distintas tallas
+            const itemKey = id + '-' + tallaElegida;
+            const indice = carrito.findIndex(item => (item.idKey || item.id) === itemKey);
+            
+            if (indice !== -1) {
+                carrito[indice].cantidad += 1;
+            } else {
+                carrito.push({
+                    idKey: itemKey,
+                    id: id,
+                    modelo: modelo,
+                    talla: tallaElegida,
+                    precio: precio,
+                    imagen: imagen,
+                    cantidad: 1
+                });
+            }
+            
+            localStorage.setItem('tabas_carrito', JSON.stringify(carrito));
+            
+            // Actualizar badge en navbar si existe la función
+            if (window.actualizarBadgeCarrito) {
+                window.actualizarBadgeCarrito();
+            }
+
+            // Mostrar Toast moderno
+            const toast = document.getElementById('toast-cart');
+            document.getElementById('toast-title').textContent = '¡Añadida al carrito!';
+            document.getElementById('toast-desc').textContent = modelo + ' (Talla ' + tallaElegida + ')';
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
