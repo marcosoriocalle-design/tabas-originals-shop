@@ -57,3 +57,17 @@ export const uploadImage = async (req, res) => {
         res.redirect('/admin?error=Error guardando en la BD');
     }
 };
+
+export const deleteImage = async (req, res) => {
+    if (!req.session.isAdmin) return res.status(403).send('No autorizado');
+
+    const id = req.params.id;
+
+    try {
+        await pool.query('UPDATE tabas_originals SET imagen_url = NULL WHERE "Codigo" = $1', [id]);
+        res.redirect('/admin?deleted=1');
+    } catch (error) {
+        console.error(error);
+        res.redirect('/admin?error=Error eliminando la foto');
+    }
+};

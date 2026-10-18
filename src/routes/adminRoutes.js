@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import multer from 'multer';
 import path from 'path';
-import { renderLogin, handleLogin, renderDashboard, uploadImage, handleLogout } from '../controllers/adminController.js';
+import { renderLogin, handleLogin, renderDashboard, uploadImage, deleteImage, handleLogout } from '../controllers/adminController.js';
 
 const router = Router();
 
@@ -25,5 +25,6 @@ router.get('/logout', handleLogout);
 // Rutas protegidas del Panel
 router.get('/', renderDashboard);
 router.post('/producto/:id/imagen', upload.single('imagen'), uploadImage);
+router.post('/producto/:id/imagen/eliminar', deleteImage);
 
 export default router;
