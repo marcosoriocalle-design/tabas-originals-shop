@@ -10,7 +10,7 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'tabas_originals',
   waitForConnections: true,
-  connectionLimit: 10,
+  connectionLimit: Number(process.env.DB_CONNECTION_LIMIT || (process.env.NETLIFY === 'true' || process.env.NETLIFY_FUNCTIONS === 'true' ? 2 : 10)),
   decimalNumbers: true,
   // TiDB Cloud Starter only accepts TLS connections on its public endpoint.
   // Leave this off for local Laragon/MySQL and set DB_SSL=true in the cloud.

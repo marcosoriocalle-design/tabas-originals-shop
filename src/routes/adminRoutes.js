@@ -10,7 +10,8 @@ import { orderStatuses, statusTransitions } from '../utils/orderStatus.js';
 
 const router = Router();
 const uploadDirectory = path.join(path.dirname(fileURLToPath(import.meta.url)), '../public/uploads');
-mkdirSync(uploadDirectory, { recursive: true });
+const isServerless = process.env.NETLIFY === 'true' || process.env.NETLIFY_FUNCTIONS === 'true';
+if (!isServerless) mkdirSync(uploadDirectory, { recursive: true });
 const loginFailures = new Map();
 const LOGIN_WINDOW_MS = 15 * 60 * 1000;
 const LOGIN_MAX_FAILURES = 5;
@@ -251,7 +252,10 @@ const upload = multer({ storage: multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, uploadDirectory),
   filename: (_req, file, cb) => cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${path.extname(file.originalname).toLowerCase()}`),
 }), limits: { fileSize: 5 * 1024 * 1024 }, fileFilter: (_req, file, cb) => cb(null, /^image\/(png|jpeg|webp|gif)$/.test(file.mimetype)) });
-router.post('/products/:id/image', requireAdmin, upload.single('image'), async (req, res, next) => {
+router.post('/products/:id/image', requireAdmin, (req, res, next) => {
+  if (isServerless) return res.status(503).json({ error: 'La carga de fotos desde el panel no está disponible en esta prueba de Netlify. Las fotos ya publicadas sí se muestran.' });
+  next();
+}, upload.single('image'), async (req, res, next) => {
   if (!req.file) return res.status(400).json({ error: 'Selecciona una imagen válida (máximo 5 MB).' });
   try {
     const [result] = await pool.execute('UPDATE products SET imagen_url = ? WHERE codigo = ?', [`/uploads/${req.file.filename}`, req.params.id]);
