@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Estado del pago | tabas ORIGINALS</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    body.payment-result-page{min-height:100vh;display:grid;place-items:center;background:#101010;color:#f7f7f7;padding:24px}
+    .payment-result-card{width:min(100%,560px);padding:clamp(28px,6vw,52px);border:1px solid #303030;border-radius:22px;background:#191919;text-align:center}
+    .payment-result-card h1{margin:0 0 14px;font-size:clamp(1.7rem,5vw,2.5rem)}
+    .payment-result-card p{color:#c7c7c7;line-height:1.65}
+    .payment-result-card .button{display:inline-flex;margin-top:18px;text-decoration:none}
+    #payment-result-status{min-height:1.8em}
+  </style>
+</head>
+<body class="payment-result-page">
+  <main class="payment-result-card" aria-live="polite">
+    <p class="eyebrow">TABAS ORIGINALS</p>
+    <h1 id="payment-result-title">Verificando tu pago</h1>
+    <p id="payment-result-status">Estamos consultando el estado directamente con Mercado Pago. No cierres esta ventana todavía.</p>
+    <a class="button primary" href="/">Volver a la tienda</a>
+  </main>
+  <script src="/payment-result.js" defer></script>
+</body>
+</html>

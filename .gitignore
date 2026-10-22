@@ -1,0 +1,6 @@
+node_modules/
+.env
+mysql.config
+.npm-cache/
+src/public/uploads/*
+!src/public/uploads/.gitkeep
